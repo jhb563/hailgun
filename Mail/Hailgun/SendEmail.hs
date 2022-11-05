@@ -9,6 +9,7 @@ import           Control.Applicative
 #endif
 import           Control.Monad                         (mzero)
 import           Data.Aeson
+import qualified Data.Aeson.Key                        as Key
 import qualified Data.ByteString.Char8                 as BC
 import qualified Data.Text                             as T
 import qualified Data.Text.Encoding                    as T
@@ -75,7 +76,7 @@ data HailgunSendResponse = HailgunSendResponse
 
 instance FromJSON HailgunSendResponse where
    parseJSON (Object v) = HailgunSendResponse
-      <$> v .: T.pack "message"
-      <*> v .: T.pack "id"
+      <$> v .: Key.fromText (T.pack "message")
+      <*> v .: Key.fromText (T.pack "id")
    parseJSON _ = mzero
 

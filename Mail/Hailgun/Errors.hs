@@ -13,6 +13,7 @@ import           Control.Applicative
 #endif
 import           Control.Monad       (mzero)
 import           Data.Aeson
+import           Data.Aeson.Key      as Key
 import qualified Data.Text           as T
 
 -- TODO make this Hailgun specific and different for the Mailgun api. That way there is the correct
@@ -28,7 +29,7 @@ toHailgunError = HailgunErrorResponse
 
 instance FromJSON HailgunErrorResponse where
    parseJSON (Object v) = HailgunErrorResponse
-      <$> v .: T.pack "message"
+      <$> v .: Key.fromText (T.pack "message")
    parseJSON _ = mzero
 
 serverError :: Either HailgunErrorResponse a
